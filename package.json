@@ -1,0 +1,22 @@
+{
+  "name": "cloudshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamjackslayer/CloudShop.git"
+  },
+  "author": "Jack Wong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamjackslayer/CloudShop/issues"
+  },
+  "homepage": "https://github.com/iamjackslayer/CloudShop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
