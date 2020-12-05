@@ -3,9 +3,10 @@ import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import _ from 'lodash'
 
 const ProductScreen = ({ match }) => {
-  const [product, setProduct] = useState([])
+  const [product, setProduct] = useState({})
   useEffect(() => {
     const fetchProduct = async () => {
       const { data } = await axios.get(`/api/products/${match.params.id}`)
@@ -13,7 +14,7 @@ const ProductScreen = ({ match }) => {
     }
     fetchProduct()
   }, [match])
-  console.log(product)
+  if (_.isEmpty(product)) return <></>
   return (
     <>
       <Link className='btn btn-dark my-3' to='/'>
