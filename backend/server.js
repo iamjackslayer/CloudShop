@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import colors from 'colors'
 import connectDB from './config/db.js'
 import productRouter from './routes/productRoutes.js'
+import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 
 dotenv.config()
 
@@ -11,6 +12,13 @@ connectDB()
 const app = express()
 
 app.use('/api/products', productRouter)
+
+app.use(notFound) // called when no routes match
+
+// four args means the function is an error-handling middleware
+// error-handling middleware is added to the end of the middleware function stack
+// Called when error is thrown during req-res cycle.
+app.use(errorHandler)
 
 app.get('/', (req, res) => {
   res.send('API is running')
