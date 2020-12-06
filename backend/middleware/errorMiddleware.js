@@ -1,9 +1,10 @@
 const notFound = (req, res, next) => {
   const error = new Error(`Not found - ${req.originalUrl}`)
   res.status(404)
-  next(error)
+  next(error) // forward to error handler
 }
 
+// All error requests flow to errorHandler.
 const errorHandler = (err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode // Just in case the status code is 200 even when error is thrown
   res.status(statusCode)
