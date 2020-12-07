@@ -20,6 +20,7 @@ const ProductScreen = ({ match, history }) => {
   const addToCartHandler = e => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
   }
+  if (_.isEmpty(product)) return <></>
 
   return (
     <>
