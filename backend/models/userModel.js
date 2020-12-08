@@ -27,10 +27,21 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-userSchema.methods.matchPassword = async function (password) {
+userSchema.methods.matchPassword = function (password) {
   const isMatching = bcrypt.compareSync(password, this.password)
   return isMatching
 }
+
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password')) {
+    // not registering. Could be update user data in which case we don't want to hash the password
+    next()
+  }
+  const salt = bcrypt.genSaltSync(10)
+  const hash = bcrypt.hashSync(this.password, salt)
+  this.password = hash
+  next()
+})
 
 const User = mongoose.model('User', userSchema)
 
