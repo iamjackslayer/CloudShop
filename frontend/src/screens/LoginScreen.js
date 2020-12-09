@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Form, Button, Row, Col, Spinner } from 'react-bootstrap'
+import { Form, Button, Row, Col } from 'react-bootstrap'
 import _ from 'lodash'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -18,6 +18,7 @@ const LoginScreen = ({ location, history }) => {
   const { loading, error, userInfo } = useSelector(state => state.userLogin)
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
+      // If logged in, then redirect from this page
       history.push(redirect)
     }
   }, [history, userInfo, redirect])

@@ -1,9 +1,18 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router-dom'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap'
+import _ from 'lodash'
+import { logout } from '../actions/userActions'
 
 const Header = () => {
+  const dispatch = useDispatch()
+  const { userInfo } = useSelector(state => state.userLogin)
+
+  const logoutHandler = e => {
+    dispatch(logout())
+  }
   return (
     <header>
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
@@ -21,11 +30,22 @@ const Header = () => {
                 <i className='fas fa-shopping-cart'></i> Cart
               </Nav.Link>
               {/* </LinkContainer> */}
-              {/* <LinkContainer to='/login'> */}
-              <Nav.Link as={Link} to='/login'>
-                <i className='fas fa-user'></i> Sign in
-              </Nav.Link>
-              {/* </LinkContainer> */}
+              {!_.isEmpty(userInfo) ? (
+                <NavDropdown title={userInfo.name} id='username'>
+                  <NavDropdown.Item as={Link} to='/profile'>
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                /* <LinkContainer to='/login'> */
+                <Nav.Link as={Link} to='/login'>
+                  <i className='fas fa-user'></i> Sign in
+                </Nav.Link>
+                /* </LinkContainer> */
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
