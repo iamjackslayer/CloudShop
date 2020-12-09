@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import _ from 'lodash'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { getUserProfile } from '../actions/userActions'
+import { getUserProfile, updateUserProfile } from '../actions/userActions'
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState('')
@@ -16,7 +15,10 @@ const ProfileScreen = ({ location, history }) => {
 
   const dispatch = useDispatch()
   const userLogin = useSelector(state => state.userLogin)
+
   const { loading, error, details } = useSelector(state => state.userProfile)
+
+  const { success } = useSelector(state => state.userUpdateProfile)
 
   useEffect(() => {
     if (_.isEmpty(userLogin.userInfo)) {
@@ -36,7 +38,13 @@ const ProfileScreen = ({ location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
     } else {
-      // dispatch updateProfile
+      dispatch(
+        updateUserProfile({
+          name: details.name,
+          email: details.email,
+          password: details.password
+        })
+      )
     }
   }
   return (
@@ -44,6 +52,9 @@ const ProfileScreen = ({ location, history }) => {
       <Col md={3}>
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
+        {success && (
+          <Message variant='success'>Profile successfully updated</Message>
+        )}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
@@ -78,14 +89,14 @@ const ProfileScreen = ({ location, history }) => {
             <Form.Control
               type='password'
               placeholder='Confirm your password'
-              value={password}
+              value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
             ></Form.Control>
           </Form.Group>
+          <Button type='submit' variant='primary'>
+            Update profile
+          </Button>
         </Form>
-        <Button type='submit' variant='primary'>
-          Update profile
-        </Button>
       </Col>
       <Col md={9}></Col>
     </Row>

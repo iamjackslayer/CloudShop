@@ -11,7 +11,10 @@ import {
   USER_REGISTER_FAILURE,
   USER_DETAILS_SUCCESS,
   USER_DETAILS_REQUEST,
-  USER_DETAILS_FAILURE
+  USER_DETAILS_FAILURE,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_UPDATE_PROFILE_FAILURE
 } from '../constants/userConstants'
 
 export const register = (name, email, password) => async dispatch => {
@@ -113,6 +116,40 @@ export const getUserProfile = id => async (dispatch, getState) => {
     dispatch({
       type: USER_DETAILS_FAILURE,
       error:
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const updateUserProfile = toUpdate => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_PROFILE_REQUEST
+    })
+    const {
+      userLogin: { userInfo }
+    } = getState()
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`
+      }
+    }
+    const { name, email, password } = toUpdate
+    const res = await axios.put(
+      `/api/users/profile`,
+      { name, email, password },
+      config
+    )
+    dispatch({
+      type: USER_UPDATE_PROFILE_SUCCESS,
+      payload: res.data
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAILURE,
+      payload:
         error.response && error.response.data && error.response.data.message
           ? error.response.data.message
           : error.message

@@ -8,7 +8,8 @@ import {
 import {
   userLoginReducer,
   userRegisterReducer,
-  userProfileReducer
+  userProfileReducer,
+  userUpdateProfileReducer
 } from './reducers/userReducers'
 import { cartReducer } from './reducers/cartReducers'
 
@@ -26,7 +27,8 @@ const reducer = combineReducers({
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  userProfile: userProfileReducer
+  userProfile: userProfileReducer,
+  userUpdateProfile: userUpdateProfileReducer
 })
 const initialState = {
   cart: { cartItems: cartItemsFromStorage },
