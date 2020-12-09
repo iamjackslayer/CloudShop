@@ -88,3 +88,28 @@ export const getUserById = asyncHandler(async (req, res) => {
     throw new Error('User not found') // our errorHandler will be called with arguments err, req, res, next
   }
 })
+
+// @desc Update user profile
+// @route PUT /api/users/profile
+// @access Private
+export const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id)
+  if (user) {
+    const { name, email, password } = req.body
+    if (name) user.name = name
+    if (email) user.email = email
+    if (password) user.password = password
+
+    const updatedUser = await user.save() // !!pre hook to hash the password
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id)
+    })
+  } else {
+    res.status(404)
+    throw new Error('User not found') // our errorHandler will be called with args err, req, res, next
+  }
+})
