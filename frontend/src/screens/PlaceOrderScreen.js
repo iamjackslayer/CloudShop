@@ -23,6 +23,14 @@ const PlaceOrderScreen = () => {
   ).toFixed(2)
 
   const placeOrderHandler = e => {
+    const order = {
+      orderItems: cart.cartItems,
+      shippingAddress: cart.shippingAddress,
+      paymentMethod: cart.paymentMethod,
+      taxPrice: cart.taxPrice,
+      shippingPrice: cart.shippingPrice,
+      totalPrice: cart.totalPrice
+    }
     e.preventDefault()
   }
   return (
