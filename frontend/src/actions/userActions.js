@@ -88,6 +88,8 @@ export const login = (email, password) => async dispatch => {
 
 export const logout = () => async dispatch => {
   localStorage.removeItem('userInfo')
+  localStorage.removeItem('cartItems')
+  localStorage.removeItem('shippingAddress')
   dispatch({
     type: USER_LOGOUT_SUCCESS
   })
