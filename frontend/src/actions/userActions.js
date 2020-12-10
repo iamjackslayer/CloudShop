@@ -146,6 +146,17 @@ export const updateUserProfile = toUpdate => async (dispatch, getState) => {
       type: USER_UPDATE_PROFILE_SUCCESS,
       payload: res.data
     })
+    // Update the userLogin state (Header depends on it)
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: res.data
+    })
+    // Update the userProfile state (Initial autopopulation of ProfileScreen depends onit)
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: res.data
+    })
+    localStorage.setItem('userInfo', JSON.stringify(res.data))
   } catch (error) {
     dispatch({
       type: USER_UPDATE_PROFILE_FAILURE,

@@ -40,9 +40,9 @@ const ProfileScreen = ({ location, history }) => {
     } else {
       dispatch(
         updateUserProfile({
-          name: details.name,
-          email: details.email,
-          password: details.password
+          name,
+          email,
+          password
         })
       )
     }
