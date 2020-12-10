@@ -8,7 +8,11 @@ import {
 const cartInitialState = {
   cartItems: [],
   shippingAddress: {},
-  paymentMethod: ''
+  paymentMethod: '',
+  itemsPrice: null,
+  shippingPrice: null,
+  taxPrice: null,
+  totalPrice: null
 }
 export const cartReducer = (state = cartInitialState, action) => {
   switch (action.type) {
