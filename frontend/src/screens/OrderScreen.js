@@ -13,10 +13,12 @@ const OrderScreen = ({ match }) => {
   const { loading, error, order } = orderDetails
 
   useEffect(() => {
-    dispatch(getOrderDetails(match.params.id))
-  }, [dispatch, match])
+    if (!order._id || order._id !== match.params.id) {
+      dispatch(getOrderDetails(match.params.id))
+    }
+  }, [dispatch, match, order])
 
-  if (loading) {
+  if (loading || !order._id) {
     return <Loader />
   } else if (error) {
     return <Message variant='danger'>{error}</Message>
