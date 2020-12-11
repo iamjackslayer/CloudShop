@@ -34,13 +34,34 @@ export const register = (name, email, password) => async dispatch => {
     )
     dispatch({
       type: USER_REGISTER_SUCCESS,
-      payload: res.data
+      payload: {
+        _id: res.data._id,
+        name: res.data.name,
+        email: res.data.email,
+        isAdmin: res.data.isAdmin,
+        token: res.data.token
+      }
     })
     dispatch({
       type: USER_LOGIN_SUCCESS,
-      payload: res.data
+      payload: {
+        _id: res.data._id,
+        name: res.data.name,
+        email: res.data.email,
+        isAdmin: res.data.isAdmin,
+        token: res.data.token
+      }
     })
-    localStorage.setItem('userInfo', JSON.stringify(res.data))
+    localStorage.setItem(
+      'userInfo',
+      JSON.stringify({
+        _id: res.data._id,
+        name: res.data.name,
+        email: res.data.email,
+        isAdmin: res.data.isAdmin,
+        token: res.data.token
+      })
+    )
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAILURE,

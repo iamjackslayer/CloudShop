@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler'
 import _ from 'lodash'
 
 // @desc Create new order
-// @route /api/orders
+// @route POST /api/orders
 // @access Private
 export const addOrderItems = asyncHandler(async (req, res) => {
   const {
@@ -27,7 +27,7 @@ export const addOrderItems = asyncHandler(async (req, res) => {
       shippingPrice,
       totalPrice
     })
-    const createdOrder = order.save()
+    const createdOrder = await order.save()
     res.status(201).json(createdOrder)
   }
 })
