@@ -52,5 +52,5 @@ export const getOrderById = asyncHandler(async (req, res) => {
     res.status(401)
     throw new Error('Unauthorized')
   }
-  res.status(201).json(order)
+  res.status(200).json(order)
 })

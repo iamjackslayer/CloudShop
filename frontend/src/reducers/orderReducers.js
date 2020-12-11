@@ -60,14 +60,14 @@ export const orderDetailsReducer = (
         ...state,
         loading: true
       }
-    case ORDER_CREATE_SUCCESS:
+    case ORDER_DETAILS_SUCCESS:
       return {
         ...state,
         loading: false,
         order: action.payload,
         success: true
       }
-    case ORDER_CREATE_FAILURE:
+    case ORDER_DETAILS_FAILURE:
       return {
         ...state,
         loading: false,
