@@ -12,10 +12,12 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_REQUEST,
   USER_DETAILS_FAILURE,
+  USER_DETAILS_RESET,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
   USER_UPDATE_PROFILE_FAILURE
 } from '../constants/userConstants'
+import { MY_ORDER_LIST_RESET } from '../constants/orderConstants'
 
 export const register = (name, email, password) => async dispatch => {
   try {
@@ -114,6 +116,12 @@ export const logout = () => async dispatch => {
   localStorage.removeItem('paymentMethod')
   dispatch({
     type: USER_LOGOUT_SUCCESS
+  })
+  dispatch({
+    type: USER_DETAILS_RESET
+  })
+  dispatch({
+    type: MY_ORDER_LIST_RESET
   })
 }
 

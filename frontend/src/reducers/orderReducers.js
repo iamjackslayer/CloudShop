@@ -11,7 +11,8 @@ import {
   ORDER_PAY_SUCCESS,
   MY_ORDER_LIST_SUCCESS,
   MY_ORDER_LIST_FAILURE,
-  MY_ORDER_LIST_REQUEST
+  MY_ORDER_LIST_REQUEST,
+  MY_ORDER_LIST_RESET
 } from '../constants/orderConstants.js'
 
 const initialOrderState = {
@@ -145,6 +146,8 @@ export const myOrderListReducer = (state = initialMyOrderListState, action) => {
         loading: false,
         error: action.payload
       }
+    case MY_ORDER_LIST_RESET:
+      return initialMyOrderListState
     default:
       return state
   }
