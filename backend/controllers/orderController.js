@@ -72,7 +72,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   order.isPaid = true
   order.paidAt = Date.now()
   order.paymentResult = {
-    // comes from PayPal in req.body
+    // comes req.body, sent from frontend, which in turn comes from Paypal
     id: req.body.id,
     status: req.body.status,
     update_time: req.body.update_time,
