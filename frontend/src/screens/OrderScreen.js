@@ -44,8 +44,6 @@ const OrderScreen = ({ match }) => {
   }, [dispatch, match, order, orderPay, loading])
 
   const successPaymentHandler = (details, data) => {
-    console.log(details)
-    console.log(data)
     dispatch(payOrder(order._id, details))
   }
 
