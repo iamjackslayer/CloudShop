@@ -6,6 +6,7 @@ import _ from 'lodash'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { getOrderDetails } from '../actions/orderActions'
+import axios from 'axios'
 
 const OrderScreen = ({ match }) => {
   const dispatch = useDispatch()
@@ -14,6 +15,12 @@ const OrderScreen = ({ match }) => {
 
   useEffect(() => {
     if (!order._id || order._id !== match.params.id) {
+      const addPaypalScript = async () => {
+        const { data: clientId } = await axios.get('/api/config/paypal')
+        console.log(clientId)
+      }
+
+      addPaypalScript()
       dispatch(getOrderDetails(match.params.id))
     }
   }, [dispatch, match, order])
