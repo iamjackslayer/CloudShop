@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router-dom'
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap'
 import _ from 'lodash'
@@ -45,6 +44,19 @@ const Header = () => {
                   <i className='fas fa-user'></i> Sign in
                 </Nav.Link>
                 /* </LinkContainer> */
+              )}
+              {!_.isEmpty(userInfo) && userInfo.isAdmin && (
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <NavDropdown.Item as={Link} to='/admin/userlist'>
+                    Users
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to='/admin/productlist'>
+                    Products
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to='/admin/orderlist'>
+                    Orders
+                  </NavDropdown.Item>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
