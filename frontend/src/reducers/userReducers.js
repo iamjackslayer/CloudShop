@@ -15,7 +15,10 @@ import {
   USER_UPDATE_PROFILE_FAILURE,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
-  USER_UPDATE_PROFILE_RESET
+  USER_UPDATE_PROFILE_RESET,
+  USER_LIST_FAILURE,
+  USER_LIST_REQUEST,
+  USER_LIST_SUCCESS
 } from '../constants/userConstants'
 
 const userLoginInitialState = {
@@ -162,6 +165,34 @@ export const userUpdateProfileReducer = (
         loading: false,
         success: false,
         error: action.payload
+      }
+    default:
+      return state
+  }
+}
+
+const initialUserListState = {
+  users: [],
+  loading: false,
+  error: null
+}
+
+export const getUserListReducer = (state = initialUserListState, action) => {
+  switch (action.type) {
+    case USER_LIST_REQUEST:
+      return {
+        loading: true
+      }
+    case USER_LIST_SUCCESS:
+      return {
+        users: action.payload,
+        loading: false,
+        error: null
+      }
+    case USER_LIST_FAILURE:
+      return {
+        error: action.payload,
+        loading: false
       }
     default:
       return state
