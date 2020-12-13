@@ -177,7 +177,7 @@ const initialUserListState = {
   error: null
 }
 
-export const getUserListReducer = (state = initialUserListState, action) => {
+export const userListReducer = (state = initialUserListState, action) => {
   switch (action.type) {
     case USER_LIST_REQUEST:
       return {
