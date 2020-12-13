@@ -5,20 +5,24 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listUsers } from '../actions/userActions'
+import { listUsers, deleteUser } from '../actions/userActions'
 
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch()
   const userList = useSelector(state => state.userList)
   const { loading, error, users } = userList
   const { userInfo } = useSelector(state => state.userLogin)
+  const userDelete = useSelector(state => state.userDelete)
 
   useEffect(() => {
     ;(_.isEmpty(userInfo) || !userInfo.isAdmin) && history.push('/') // redirect to home if not admin or not logged in
     dispatch(listUsers())
-  }, [dispatch, userInfo, history])
+  }, [dispatch, userInfo, history, userDelete])
 
   const deleteHandler = id => {
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteUser(id))
+    }
     console.log('delete user')
   }
   return (

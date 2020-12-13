@@ -209,7 +209,7 @@ const initialUserDeleteState = {
   loading: false
 }
 
-export const userDeleteReducer = (state => initialUserDeleteState, action) => {
+export const userDeleteReducer = (state = initialUserDeleteState, action) => {
   switch (action.type) {
     case USER_DELETE_REQUEST:
       return {
