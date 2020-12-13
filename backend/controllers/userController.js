@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
+import _ from 'lodash'
 
 // @desc Auth user & get token
 // @route POST /api/users/login
@@ -111,5 +112,18 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   } else {
     res.status(404)
     throw new Error('User not found') // our errorHandler will be called with args err, req, res, next
+  }
+})
+
+// @desc Get all users (by admin)
+// @route GET /api/users
+// @access Private/Admin
+export const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+  if (!_.isEmpty(users)) {
+    res.json(users)
+  } else {
+    res.status(404)
+    throw new Error('Resources not found')
   }
 })
