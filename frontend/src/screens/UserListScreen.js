@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Table, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listUsers } from '../actions/userActions'
 
-const UserListScreen = () => {
+const UserListScreen = ({ history }) => {
   const dispatch = useDispatch()
   const userList = useSelector(state => state.userList)
   const { loading, error, users } = userList
+  const { userInfo } = useSelector(state => state.userLogin)
 
   useEffect(() => {
+    ;(_.isEmpty(userInfo) || !userInfo.isAdmin) && history.push('/') // redirect to home if not admin or not logged in
     dispatch(listUsers())
-  }, [dispatch])
+  }, [dispatch, userInfo, history])
 
   const deleteHandler = id => {
     console.log('delete user')

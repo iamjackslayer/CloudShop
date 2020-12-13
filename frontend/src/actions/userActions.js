@@ -18,7 +18,8 @@ import {
   USER_UPDATE_PROFILE_FAILURE,
   USER_LIST_FAILURE,
   USER_LIST_REQUEST,
-  USER_LIST_SUCCESS
+  USER_LIST_SUCCESS,
+  USER_LIST_RESET
 } from '../constants/userConstants'
 import { MY_ORDER_LIST_RESET } from '../constants/orderConstants'
 
@@ -125,6 +126,9 @@ export const logout = () => async dispatch => {
   })
   dispatch({
     type: MY_ORDER_LIST_RESET
+  })
+  dispatch({
+    type: USER_LIST_RESET
   })
 }
 
