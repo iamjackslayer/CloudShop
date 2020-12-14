@@ -21,3 +21,17 @@ export const getProductById = asyncHandler(async (req, res) => {
     throw new Error('Product not found') // our errorHandler will be called
   }
 })
+
+// @desc Delete a product
+// @route DELETE /api/products/:id
+// @access Private/Admin
+export const deleteProductById = asyncHandler(async (req, res) => {
+  let product = await Product.findById(req.params.id)
+  if (product) {
+    await product.remove()
+    res.json({ message: 'Product has been deleted' })
+  } else {
+    res.status(404)
+    throw new Error('Product not found') // our errorHandler will be called
+  }
+})
