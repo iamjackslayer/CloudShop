@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Table, Button, Row, Col, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listProducts } from '../actions/productActions'
+import { listProducts, deleteProduct } from '../actions/productActions'
 
 const ProductListScreen = ({ history }) => {
   const dispatch = useDispatch()
   const { loading, error, products } = useSelector(state => state.productList)
   const userLogin = useSelector(state => state.userLogin)
+  const productDelete = useSelector(state => state.productDelete)
+
   useEffect(() => {
     if (_.isEmpty(userLogin.userInfo) || !userLogin.userInfo.isAdmin) {
       history.push('/')
@@ -18,14 +20,16 @@ const ProductListScreen = ({ history }) => {
     if (_.isEmpty(products)) {
       dispatch(listProducts())
     }
-  }, [history, dispatch, userLogin, products])
+  }, [history, dispatch, userLogin, products, productDelete.success])
 
   const createProductHandler = e => {
     e.preventDefault()
     console.log('create product')
   }
   const deleteHandler = id => {
-    console.log('delete product')
+    if (window.confirm('Are you sure?')) {
+      dispatch(deleteProduct(id))
+    }
   }
   return (
     <>
@@ -39,12 +43,14 @@ const ProductListScreen = ({ history }) => {
           </Button>
         </Col>
       </Row>
+      {productDelete.loading && <Loader />}
+      {productDelete.error && <Message variant='danger'>{error}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <Table striped border hover responsive className='table-sm'>
+        <Table striped bordered hover responsive className='table-sm'>
           <thead>
             <tr>
               <th>PRODUCT ID</th>
