@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
-import { getUserProfile } from '../actions/userActions'
+import { getUserProfile, updateUser } from '../actions/userActions'
 import FormContainer from '../components/FormContainer'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import { USER_UPDATE_RESET } from '../constants/userConstants'
 
-const UserEditScreen = ({ match }) => {
+const UserEditScreen = ({ match, history }) => {
   const userProfile = useSelector(state => state.userProfile)
+  const userUpdate = useSelector(state => state.userUpdate)
+
   const [name, setName] = useState(userProfile.details.name)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -18,17 +21,37 @@ const UserEditScreen = ({ match }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if (userUpdate.success) {
+      history.push('/admin/userlist')
+      // to make userUpdate.success be false to next visit to this screen will not redirect
+      dispatch({
+        type: USER_UPDATE_RESET
+      })
+      return
+    }
     if (userProfile.details._id !== match.params.id) {
       dispatch(getUserProfile(match.params.id))
     }
     setName(userProfile.details.name)
     setEmail(userProfile.details.email)
     setIsAdmin(userProfile.details.isAdmin)
-  }, [dispatch, match, userProfile])
+  }, [dispatch, match, userProfile, history, userUpdate])
 
   const submitHandler = e => {
     e.preventDefault()
-    console.log('submit')
+    if (password !== confirmPassword) {
+      window.alert('Passwords do not match')
+      return
+    }
+    dispatch(
+      updateUser({
+        _id: userProfile.details._id,
+        name,
+        email,
+        password,
+        isAdmin
+      })
+    )
   }
 
   return (
@@ -37,6 +60,10 @@ const UserEditScreen = ({ match }) => {
         Go back
       </Link>
       <h1>Edit User</h1>
+      {userUpdate.loading && <Loader />}
+      {userUpdate.error && (
+        <Message variant='danger'>{userUpdate.error}</Message>
+      )}
       {userProfile.loading ? (
         <Loader />
       ) : userProfile.error ? (

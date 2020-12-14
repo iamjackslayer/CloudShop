@@ -22,7 +22,11 @@ import {
   USER_LIST_RESET,
   USER_DELETE_FAILURE,
   USER_DELETE_REQUEST,
-  USER_DELETE_SUCCESS
+  USER_DELETE_SUCCESS,
+  USER_UPDATE_FAILURE,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_RESET,
+  USER_UPDATE_SUCCESS
 } from '../constants/userConstants'
 import { MY_ORDER_LIST_RESET } from '../constants/orderConstants'
 
@@ -132,6 +136,9 @@ export const logout = () => async dispatch => {
   })
   dispatch({
     type: USER_LIST_RESET
+  })
+  dispatch({
+    type: USER_UPDATE_RESET
   })
 }
 
@@ -254,6 +261,41 @@ export const deleteUser = id => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DELETE_FAILURE,
+      payload:
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const updateUser = toUpdate => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_REQUEST
+    })
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().userLogin.userInfo.token}`
+      }
+    }
+    const { _id, name, email, password, isAdmin } = toUpdate
+    const res = await axios.put(
+      `/api/users/${toUpdate._id}`,
+      { _id, name, email, password, isAdmin },
+      config
+    )
+    dispatch({
+      type: USER_UPDATE_SUCCESS
+    })
+    dispatch({
+      type: USER_DETAILS_SUCCESS,
+      payload: res.data
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_FAILURE,
       payload:
         error.response && error.response.data && error.response.data.message
           ? error.response.data.message

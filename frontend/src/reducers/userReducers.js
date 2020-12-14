@@ -22,7 +22,11 @@ import {
   USER_LIST_RESET,
   USER_DELETE_FAILURE,
   USER_DELETE_REQUEST,
-  USER_DELETE_SUCCESS
+  USER_DELETE_SUCCESS,
+  USER_UPDATE_FAILURE,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+  USER_UPDATE_RESET
 } from '../constants/userConstants'
 
 const userLoginInitialState = {
@@ -226,6 +230,38 @@ export const userDeleteReducer = (state = initialUserDeleteState, action) => {
         loading: false,
         error: action.payload
       }
+    default:
+      return state
+  }
+}
+
+const initialUserUpdateState = {
+  loading: false,
+  error: null,
+  success: false
+}
+
+export const userUpdateReducer = (state = initialUserUpdateState, action) => {
+  switch (action.type) {
+    case USER_UPDATE_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case USER_UPDATE_SUCCESS:
+      return {
+        error: null,
+        loading: false,
+        success: true
+      }
+    case USER_UPDATE_FAILURE:
+      return {
+        loading: false,
+        error: action.payload,
+        success: false
+      }
+    case USER_UPDATE_RESET:
+      return initialUserUpdateState
     default:
       return state
   }
