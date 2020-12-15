@@ -11,7 +11,11 @@ import {
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_CREATE_FAILURE,
   PRODUCT_CREATE_REQUEST,
-  PRODUCT_CREATE_SUCCESS
+  PRODUCT_CREATE_SUCCESS,
+  PRODUCT_UPDATE_FAILURE,
+  PRODUCT_UPDATE_REQUEST,
+  PRODUCT_UPDATE_RESET,
+  PRODUCT_UPDATE_SUCCESS
 } from '../constants/productConstants'
 
 export const listProducts = () => async dispatch => {
@@ -101,6 +105,55 @@ export const createProduct = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_FAILURE,
+      payload:
+        error.response && error.response.data && error.response.data.message
+          ? error.response.data.message
+          : error.message
+    })
+  }
+}
+
+export const updateProduct = product => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PRODUCT_UPDATE_REQUEST
+    })
+    const {
+      name,
+      image,
+      brand,
+      category,
+      description,
+      price,
+      countInStock
+    } = product
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().userLogin.userInfo.token}`
+      }
+    }
+
+    const res = await axios.put(
+      `/api/products/${product._id}`,
+      {
+        name,
+        image,
+        brand,
+        category,
+        description,
+        price,
+        countInStock
+      },
+      config
+    )
+    dispatch({
+      type: PRODUCT_UPDATE_SUCCESS,
+      payload: res.data
+    })
+  } catch (error) {
+    dispatch({
+      type: PRODUCT_UPDATE_FAILURE,
       payload:
         error.response && error.response.data && error.response.data.message
           ? error.response.data.message

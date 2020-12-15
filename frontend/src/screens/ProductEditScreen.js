@@ -5,11 +5,13 @@ import { Form, Button, Image } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { getProductDetails } from '../actions/productActions'
+import { getProductDetails, updateProduct } from '../actions/productActions'
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants'
 
-const ProductEditScreen = ({ match }) => {
+const ProductEditScreen = ({ match, history }) => {
   const dispatch = useDispatch()
   const productDetails = useSelector(state => state.productDetails)
+  const productUpdate = useSelector(state => state.productUpdate)
   const [name, setName] = useState(productDetails.product.name)
   const [image, setImage] = useState(productDetails.product.image)
   const [brand, setBrand] = useState(productDetails.product.brand)
@@ -23,6 +25,13 @@ const ProductEditScreen = ({ match }) => {
   )
 
   useEffect(() => {
+    // Redirect to /admin/productlist upon successful update
+    if (productUpdate.success) {
+      dispatch({
+        type: PRODUCT_UPDATE_RESET
+      })
+      history.push(`/admin/productlist`)
+    }
     if (match.params.id !== productDetails.product._id) {
       dispatch(getProductDetails(match.params.id))
       setName(productDetails.product.name)
@@ -33,10 +42,22 @@ const ProductEditScreen = ({ match }) => {
       setPrice(productDetails.product.price)
       setCountInStock(productDetails.product.countInStock)
     }
-  }, [dispatch, productDetails.product, match])
+  }, [dispatch, productDetails.product, match, history, productUpdate.success])
 
   const submitHandler = e => {
     e.preventDefault()
+    dispatch(
+      updateProduct({
+        _id: productDetails.product._id,
+        name,
+        image,
+        brand,
+        category,
+        description,
+        price,
+        countInStock
+      })
+    )
     console.log('submit')
   }
   return (
@@ -46,6 +67,10 @@ const ProductEditScreen = ({ match }) => {
       </Link>
       <FormContainer>
         <h1>Edit Product</h1>
+        {productUpdate.loading && <Loader />}
+        {productUpdate.error && (
+          <Message variant='danger'>{productUpdate.error}</Message>
+        )}
         {productDetails.loading ? (
           <Loader />
         ) : productDetails.error ? (

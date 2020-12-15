@@ -28,7 +28,10 @@ import {
   USER_UPDATE_RESET,
   USER_UPDATE_SUCCESS
 } from '../constants/userConstants'
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+import {
+  PRODUCT_CREATE_RESET,
+  PRODUCT_UPDATE_RESET
+} from '../constants/productConstants'
 import { MY_ORDER_LIST_RESET } from '../constants/orderConstants'
 
 export const register = (name, email, password) => async dispatch => {
@@ -143,6 +146,9 @@ export const logout = () => async dispatch => {
   })
   dispatch({
     type: PRODUCT_CREATE_RESET
+  })
+  dispatch({
+    type: PRODUCT_UPDATE_RESET
   })
 }
 

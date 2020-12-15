@@ -36,8 +36,8 @@ export const deleteProductById = asyncHandler(async (req, res) => {
   }
 })
 
-// @desc Create a product
-// @route POST /api/products/:id
+// @desc Create a sample product
+// @route POST /api/products
 // @access Private/Admin
 export const createProduct = asyncHandler(async (req, res) => {
   const product = await Product.create({
@@ -55,7 +55,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 })
 
 // @desc Update a product
-// @route PUT /api/products/
+// @route PUT /api/products/:id
 // @access Private/Admin
 export const updateProduct = asyncHandler(async (req, res) => {
   const toUpdate = await Product.findById(req.params.id)
