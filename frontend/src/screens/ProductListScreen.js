@@ -5,26 +5,35 @@ import { Link } from 'react-router-dom'
 import _ from 'lodash'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listProducts, deleteProduct } from '../actions/productActions'
+import {
+  listProducts,
+  deleteProduct,
+  createProduct
+} from '../actions/productActions'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 const ProductListScreen = ({ history }) => {
   const dispatch = useDispatch()
   const { loading, error, products } = useSelector(state => state.productList)
   const userLogin = useSelector(state => state.userLogin)
   const productDelete = useSelector(state => state.productDelete)
+  const productCreate = useSelector(state => state.productCreate)
 
   useEffect(() => {
+    dispatch({ type: PRODUCT_CREATE_RESET }) // allows come back to this page after create success
     if (_.isEmpty(userLogin.userInfo) || !userLogin.userInfo.isAdmin) {
       history.push('/')
-    }
-    if (_.isEmpty(products)) {
+    } else {
       dispatch(listProducts())
     }
-  }, [history, dispatch, userLogin, products, productDelete.success])
+    if (productCreate.success) {
+      history.push(`/admin/product/${productCreate.product._id}/edit`)
+    }
+  }, [history, dispatch, userLogin, productCreate])
 
   const createProductHandler = e => {
     e.preventDefault()
-    console.log('create product')
+    dispatch(createProduct())
   }
   const deleteHandler = id => {
     if (window.confirm('Are you sure?')) {
@@ -43,6 +52,8 @@ const ProductListScreen = ({ history }) => {
           </Button>
         </Col>
       </Row>
+      {productCreate.loading && <Loader />}
+      {productDelete.error && <Message variant='danger'>{error}</Message>}
       {productDelete.loading && <Loader />}
       {productDelete.error && <Message variant='danger'>{error}</Message>}
       {loading ? (
