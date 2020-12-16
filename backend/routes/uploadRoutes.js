@@ -5,7 +5,7 @@ const router = express.Router()
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads')
+    cb(null, 'uploads') // destination relative to root (where npm script is run from)
   },
   filename: function (req, file, cb) {
     cb(
