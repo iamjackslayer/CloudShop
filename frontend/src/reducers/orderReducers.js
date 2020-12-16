@@ -16,7 +16,11 @@ import {
   ORDER_LIST_FAILURE,
   ORDER_LIST_REQUEST,
   ORDER_LIST_RESET,
-  ORDER_LIST_SUCCESS
+  ORDER_LIST_SUCCESS,
+  ORDER_DELIVER_FAILURE,
+  ORDER_DELIVER_REQUEST,
+  ORDER_DELIVER_SUCCESS,
+  ORDER_DELIVER_RESET
 } from '../constants/orderConstants.js'
 
 const initialOrderState = {
@@ -186,6 +190,41 @@ export const orderListReducer = (state = initialOrderListState, action) => {
     case ORDER_LIST_RESET:
       return initialOrderListState
 
+    default:
+      return state
+  }
+}
+
+const initialOrderDeliverState = {
+  loading: false,
+  error: null,
+  success: false
+}
+
+export const orderDeliverReducer = (
+  state = initialOrderDeliverState,
+  action
+) => {
+  switch (action.type) {
+    case ORDER_DELIVER_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case ORDER_DELIVER_SUCCESS:
+      return {
+        loading: false,
+        success: false,
+        error: null
+      }
+    case ORDER_DELIVER_FAILURE:
+      return {
+        success: false,
+        loading: false,
+        error: action.payload
+      }
+    case ORDER_DELIVER_RESET:
+      return initialDeliverOrderState
     default:
       return state
   }
