@@ -219,7 +219,7 @@ export const productCreateReviewReducer = (
         success: false
       }
     case PRODUCT_CREATE_REVIEW_RESET:
-      return productReviewInitialState
+      return productCreateReviewInitialState
     default:
       return state
   }

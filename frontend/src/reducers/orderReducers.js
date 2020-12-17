@@ -224,7 +224,7 @@ export const orderDeliverReducer = (
         error: action.payload
       }
     case ORDER_DELIVER_RESET:
-      return initialDeliverOrderState
+      return initialOrderDeliverState
     default:
       return state
   }

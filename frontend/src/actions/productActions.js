@@ -175,7 +175,7 @@ export const createProductReview = (productId, { rating, comment }) => async (
     })
     const config = {
       headers: {
-        Authorization: `Bearer ${getState.userLogin.userInfo.token}`
+        Authorization: `Bearer ${getState().userLogin.userInfo.token}`
       }
     }
     const res = await axios.post(
