@@ -6,13 +6,14 @@ import { listProducts } from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 
-const HomeScreen = ({ match }) => {
+const HomeScreen = ({ match, location }) => {
   const keyword = match.params.keyword
+  const pagenum = match.params.pagenum || 1
   const dispatch = useDispatch()
   const { loading, error, products } = useSelector(state => state.productList)
   useEffect(() => {
-    dispatch(listProducts(keyword))
-  }, [dispatch, keyword])
+    dispatch(listProducts(keyword, pagenum))
+  }, [dispatch, keyword, pagenum])
   return (
     <>
       <h1>Latest products</h1>

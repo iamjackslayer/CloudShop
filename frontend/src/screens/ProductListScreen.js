@@ -12,24 +12,24 @@ import {
 } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
-const ProductListScreen = ({ history }) => {
+const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch()
   const { loading, error, products } = useSelector(state => state.productList)
   const userLogin = useSelector(state => state.userLogin)
   const productDelete = useSelector(state => state.productDelete)
   const productCreate = useSelector(state => state.productCreate)
-
+  const pagenum = match.params.pagenum
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET }) // allows come back to this page after create success
     if (_.isEmpty(userLogin.userInfo) || !userLogin.userInfo.isAdmin) {
       history.push('/')
     } else {
-      dispatch(listProducts())
+      dispatch(listProducts('', pagenum))
     }
     if (productCreate.success) {
       history.push(`/admin/product/${productCreate.product._id}/edit`)
     }
-  }, [history, dispatch, userLogin, productCreate])
+  }, [history, dispatch, userLogin, productCreate, pagenum])
 
   const createProductHandler = e => {
     e.preventDefault()

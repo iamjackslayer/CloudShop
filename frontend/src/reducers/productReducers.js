@@ -23,6 +23,8 @@ import {
 } from '../constants/productConstants'
 const productListInitialState = {
   products: [],
+  page: 1,
+  numPages: 0,
   loading: false,
   error: null
 }
@@ -36,11 +38,15 @@ export const productListReducer = (state = productListInitialState, action) => {
       }
     case PRODUCT_LIST_SUCCESS:
       return {
+        ...state,
         loading: false,
-        products: action.payload
+        products: action.payload.products,
+        page: action.payload.page,
+        numPages: action.payload.pages
       }
     case PRODUCT_LIST_FAILURE:
       return {
+        ...state,
         loading: false,
         error: action.payload
       }
