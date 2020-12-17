@@ -42,7 +42,7 @@ export const productListReducer = (state = productListInitialState, action) => {
         loading: false,
         products: action.payload.products,
         page: action.payload.page,
-        numPages: action.payload.pages
+        numPages: action.payload.numPages
       }
     case PRODUCT_LIST_FAILURE:
       return {
