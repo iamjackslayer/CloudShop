@@ -30,7 +30,8 @@ import {
 } from '../constants/userConstants'
 import {
   PRODUCT_CREATE_RESET,
-  PRODUCT_UPDATE_RESET
+  PRODUCT_UPDATE_RESET,
+  PRODUCT_CREATE_REVIEW_RESET
 } from '../constants/productConstants'
 import {
   MY_ORDER_LIST_RESET,
@@ -159,6 +160,9 @@ export const logout = () => async dispatch => {
   })
   dispatch({
     type: ORDER_DELIVER_RESET
+  })
+  dispatch({
+    type: PRODUCT_CREATE_REVIEW_RESET
   })
 }
 
