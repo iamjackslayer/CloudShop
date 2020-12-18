@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+import _ from 'lodash'
 import Product from '../models/productModel.js'
 
 // @desc  Fetch all products
@@ -131,4 +132,16 @@ export const createProductReview = asyncHandler(async (req, res) => {
   )
   const updatedProduct = await product.save()
   res.json(updatedProduct)
+})
+
+// @desc Get top rated products
+// @route GET /api/products/top
+// @access Public
+export const getTopProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find({}).sort({ rating: -1 }).limit(5)
+  if (_.isEmpty(products)) {
+    res.status(404)
+    throw new Error('No products found')
+  }
+  res.json(products)
 })
