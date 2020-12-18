@@ -19,7 +19,10 @@ import {
   PRODUCT_CREATE_REVIEW_FAILURE,
   PRODUCT_CREATE_REVIEW_REQUEST,
   PRODUCT_CREATE_REVIEW_RESET,
-  PRODUCT_CREATE_REVIEW_SUCCESS
+  PRODUCT_CREATE_REVIEW_SUCCESS,
+  PRODUCT_TOP_FAILURE,
+  PRODUCT_TOP_REQUEST,
+  PRODUCT_TOP_SUCCESS
 } from '../constants/productConstants'
 const productListInitialState = {
   products: [],
@@ -226,6 +229,39 @@ export const productCreateReviewReducer = (
       }
     case PRODUCT_CREATE_REVIEW_RESET:
       return productCreateReviewInitialState
+    default:
+      return state
+  }
+}
+
+const productTopRatedInitialState = {
+  loading: false,
+  products: [],
+  error: null
+}
+
+export const productTopRatedReducer = (
+  state = productTopRatedInitialState,
+  action
+) => {
+  switch (action.type) {
+    case PRODUCT_TOP_REQUEST:
+      return {
+        ...state,
+        loading: true
+      }
+    case PRODUCT_TOP_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: action.payload
+      }
+    case PRODUCT_TOP_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      }
     default:
       return state
   }
