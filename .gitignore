@@ -3,7 +3,7 @@ node_modules/
 
 frontend/.eslintcache
 
-/build
+/frontend/build
 
 .env
 .env.local
