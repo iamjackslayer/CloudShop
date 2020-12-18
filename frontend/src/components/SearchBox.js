@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import { Form, Button } from 'react-bootstrap'
 
 const SearchBox = () => {
   const [keyword, setKeyword] = useState('')
   const history = useHistory()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.pathname === '/') {
+      setKeyword('')
+    }
+  }, [location.pathname])
 
   const submitHandler = e => {
     e.preventDefault()

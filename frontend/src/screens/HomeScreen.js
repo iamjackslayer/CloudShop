@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+
+import Meta from '../components/Meta'
 import Product from '../components/Product'
-import { listProducts } from '../actions/productActions'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
+
+import { listProducts } from '../actions/productActions'
+import { Link } from 'react-router-dom'
 
 const HomeScreen = ({ match, location }) => {
   const keyword = match.params.keyword
@@ -20,7 +24,17 @@ const HomeScreen = ({ match, location }) => {
   }, [dispatch, keyword, pagenum])
   return (
     <>
-      {!keyword && <ProductCarousel />}
+      <Meta />
+      {
+        !keyword && (
+          <ProductCarousel />
+        ) /** we don't want to show carousel on searching */
+      }
+      {keyword && (
+        <Link to={`/`} className='btn btn-dark'>
+          Go back
+        </Link>
+      )}
       <h1>Latest products</h1>
       {loading ? (
         <Loader />
