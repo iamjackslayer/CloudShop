@@ -9,9 +9,7 @@ import { getAllOrders } from '../actions/orderActions'
 
 const OrderListScreen = ({ history }) => {
   const dispatch = useDispatch()
-  const { orders, loading, error, success } = useSelector(
-    state => state.orderList
-  )
+  const { orders, loading, error } = useSelector(state => state.orderList)
   const { userInfo } = useSelector(state => state.userLogin)
   useEffect(() => {
     ;(_.isEmpty(userInfo) || !userInfo.isAdmin) && history.push('/')
