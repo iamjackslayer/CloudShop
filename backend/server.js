@@ -27,6 +27,14 @@ app.use('/api/upload', uploadRouter)
 
 const __dirname = path.resolve() // cus __dirname is a commonJs syntax, but we're using ES module
 app.use('/uploads', express.static(path.join(__dirname, '/uploads'))) // make /uploads accessible to the browser by making /uploads a static folder
+if (process.env.NODE_ENV === 'production') {
+  console.log('Dev debug:\n root dir:\n  ' + __dirname)
+  app.use('/', express.static(path.join(__dirname, 'frontend', 'build')))
+  // app.use('*', (req, res) => {
+  //   console.log('inside start *')
+  //   res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
+  // })
+}
 
 app.get('/api/config/paypal', (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
