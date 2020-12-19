@@ -13,7 +13,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -d",
-    "start": "NPM_USE_PRODUCTION=false npm install --prefix frontend && npm build --prefix frontend && node backend/server"
+    "start": "NPM_USE_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend && node backend/server"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/iamjackslayer/CloudShop#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
@@ -37,7 +38,6 @@
     "multer": "^1.4.2"
   },
   "devDependencies": {
-    "colors": "^1.4.0",
     "concurrently": "^5.3.0",
     "nodemon": "^2.0.6"
   }
