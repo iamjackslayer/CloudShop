@@ -13,7 +13,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -d",
-    "start": "npm install --prefix frontend && npm build --prefix frontend && node backend/server"
+    "start": "NPM_USE_PRODUCTION=false npm install --prefix frontend && npm build --prefix frontend && node backend/server"
   },
   "repository": {
     "type": "git",
