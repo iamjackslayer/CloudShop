@@ -23,6 +23,7 @@ const OrderScreen = ({ match, history }) => {
   const orderDeliver = useSelector(state => state.orderDeliver)
   // we're gonna have a piece of state for when the sdk is ready
   const [sdkReady, setSdkReady] = useState(false)
+  const [paypalScriptAdded, setPaypalScriptAdded] = useState(false)
 
   useEffect(() => {
     if (_.isEmpty(userLogin.userInfo)) {
@@ -43,7 +44,9 @@ const OrderScreen = ({ match, history }) => {
       dispatch({ type: ORDER_PAY_RESET })
       dispatch(getOrderDetails(match.params.id))
     }
-    if (!order.isPaid && !window.paypal) {
+    if (!order.isPaid && !paypalScriptAdded) {
+      setPaypalScriptAdded(true) // to strictly make sure addPaypalScript() is only called once
+      console.log('adding paypal script')
       addPaypalScript()
     }
     // dispatch getOrderDetails again upon successful payment
