@@ -24,6 +24,9 @@ app.use('/api/products', productRouter)
 app.use('/api/users', userRouter)
 app.use('/api/orders', orderRouter)
 app.use('/api/upload', uploadRouter)
+app.get('/api/config/paypal', (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+)
 
 const __dirname = path.resolve() // cus __dirname is a commonJs syntax, but we're using ES module
 app.use('/uploads', express.static(path.join(__dirname, '/uploads'))) // make /uploads accessible to the browser by making /uploads a static folder
@@ -36,20 +39,12 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-app.get('/api/config/paypal', (req, res) =>
-  res.send(process.env.PAYPAL_CLIENT_ID)
-)
-
 app.use(notFound) // called when no routes match
 
 // four args means the function is an error-handling middleware
 // error-handling middleware is added to the end of the middleware function stack
 // Called when error is thrown during req-res cycle.
 app.use(errorHandler)
-
-app.get('/', (req, res) => {
-  res.send('API is running')
-})
 
 const PORT = process.env.PORT || 5000
 const NODE_ENV = process.env.NODE_ENV
