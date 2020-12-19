@@ -30,10 +30,10 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads'))) // make /u
 if (process.env.NODE_ENV === 'production') {
   console.log('Dev debug:\n root dir:\n  ' + __dirname)
   app.use('/', express.static(path.join(__dirname, 'frontend', 'build')))
-  // app.use('*', (req, res) => {
-  //   console.log('inside start *')
-  //   res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
-  // })
+  app.use('*', (req, res) => {
+    console.log('inside start *')
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'))
+  })
 }
 
 app.get('/api/config/paypal', (req, res) =>
