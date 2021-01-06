@@ -4,7 +4,8 @@ const users = [
   {
     name: 'Admin User',
     email: 'admin@cloudshop.com',
-    password: bcrypt.hashSync('123456', salt)
+    password: bcrypt.hashSync('123456', salt),
+    isAdmin: true
   },
   {
     name: 'Joseph Pairin',
