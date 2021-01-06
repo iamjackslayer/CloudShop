@@ -1,5 +1,9 @@
 # CloudShop - e-Commerce Platform
 
+## View live site
+http://cloudshop-dev.ap-southeast-1.elasticbeanstalk.com
+
+
 ## Features
 
 - Product reviews and ratings
@@ -79,3 +83,6 @@ jos@cloudshop.com (User)
 laurel@cloudshop.com (User)
 123456
 ```
+
+## View live site
+http://cloudshop-dev.ap-southeast-1.elasticbeanstalk.com
