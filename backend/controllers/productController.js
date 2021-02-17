@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler'
 import _ from 'lodash'
 import Product from '../models/productModel.js'
+import { clearHash } from '../config/mongoose-redis.js'
 
 // @desc  Fetch all products
 // @route  GET /api/products
@@ -13,11 +14,14 @@ export const getProducts = asyncHandler(async (req, res) => {
         name: new RegExp(req.query.keyword, 'i')
       }
     : {}
-  const count = await Product.count({ ...keyword })
+
+  const count = await Product.countDocuments({ ...keyword })
   const products = await Product.find({ ...keyword })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
-  res.json({ products, page, numPages: Math.ceil(count / pageSize) })
+    .cache({ key: 'j' })
+  const productData = { products, page, numPages: Math.ceil(count / pageSize) }
+  res.json(productData)
 })
 
 // @desc  Fetch single product
