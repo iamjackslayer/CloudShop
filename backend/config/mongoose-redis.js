@@ -9,7 +9,7 @@ RegExp.prototype.toJSON = function () {
   return this.toString()
 }
 
-mongoose.Query.cache = function (options = {}) {
+mongoose.Query.prototype.cache = function (options = {}) {
   this.useCache = true
   this.hashKey = JSON.stringify(options.key || '')
   return this // for chaining of Query instance
@@ -30,17 +30,17 @@ mongoose.Query.prototype.exec = async function () {
 
   // If key exists in redis
   if (cacheValue) {
-    console.log(`Cached`)
     const doc = JSON.parse(cacheValue)
+    console.log(`Cached: key: ${key}`)
     return Array.isArray(doc)
-      ? doc.map(d => new mongoose.model(d))
-      : new mongoose.model(doc)
+      ? doc.map(d => new this.model(d))
+      : new this.model(doc)
   }
   // Key does not exists in redis -> proceed to cache it
-  const res = exec.apply(this, arguments)
+  const res = await exec.apply(this, arguments)
 
   await redisClient.hsetAsync(this.hashKey, key, JSON.stringify(res), 'EX', 15)
-  console.log(`hsetAsync ${this.hashKey} ${key}`)
+  console.log(`hsetAsync hashKey: ${this.hashKey}, key: ${key}`)
   return res
 }
 
