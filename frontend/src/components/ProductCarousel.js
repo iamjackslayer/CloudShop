@@ -5,7 +5,7 @@ import { Carousel, Image } from 'react-bootstrap'
 import Message from './Message'
 import Loader from './Loader'
 import { getTopProducts } from '../actions/productActions'
-import styles from './ProductCarousel.module.scss'
+// import styles from './ProductCarousel.module.scss'
 
 const ProductCarousel = () => {
   const dispatch = useDispatch()
@@ -26,17 +26,17 @@ const ProductCarousel = () => {
         <Carousel
           pause='hover'
           onSelect={handleSelect}
-          className={`bg-dark ${styles.carousel}`}
+          className={`bg-dark carousel`}
         >
           {products.map(product => (
             <Carousel.Item
               interval={2500}
               key={product._id}
-              className={styles['carousel-item']}
+              className='carousel-item'
             >
               <Link to={`/product/${product._id}`}>
                 <Image src={product.image} fluid />
-                <Carousel.Caption className={styles['carousel-caption']}>
+                <Carousel.Caption className='carousel-caption'>
                   <h2>
                     {product.name} (${product.price})
                   </h2>

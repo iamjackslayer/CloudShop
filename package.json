@@ -13,7 +13,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -d",
-    "start": "NPM_USE_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend && node backend/server"
+    "start": "NPM_USE_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend && node backend/server",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -41,6 +42,8 @@
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.6"
+    "jest": "^26.6.0",
+    "nodemon": "^2.0.6",
+    "puppeteer": "^7.1.0"
   }
 }
