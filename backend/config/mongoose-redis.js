@@ -34,7 +34,7 @@ mongoose.Query.prototype.exec = async function () {
     console.log(`Cached: key: ${key}`)
     return Array.isArray(doc)
       ? doc.map(d => new this.model(d))
-      : new this.model(doc)
+      : new this.model(doc) // We never know what model it is, it can be mongoose.model('Product', productSchema), or User etc
   }
   // Key does not exists in redis -> proceed to cache it
   const res = await exec.apply(this, arguments)

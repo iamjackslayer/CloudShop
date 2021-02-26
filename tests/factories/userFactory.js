@@ -1,4 +1,4 @@
-module.exports = userId => {
+module.exports = (userId, token) => {
   return {
     _id: userId,
     name: 'Admin',
